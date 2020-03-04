@@ -21,14 +21,14 @@ RSpec.describe Task, type: :model do
    end
 
   # ➃it 'is invalid with a duplicate title' do end
-  it 'タイトルが重複していたらinvalid' do
+  it '複製されたタイトルだったらinvalid' do
     task = Task.new(title: 'bbb', status: :doing)
     task.title = "bbb"
     expect(task.errors[:title]).to be_valid
   end
 
   # ➄it 'is valid with another title' do end
-  it 'タイトルが重複していたらinvalid' do
+  it '重複していないタイトルだったらvalid' do
     task = Task.new(title: 'bbb', status: :doing)
     task.title =  "ccc"
     expect(task.errors[:title]).to be_valid
