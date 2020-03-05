@@ -35,7 +35,7 @@ RSpec.describe Task, type: :model do
   end
 
   # ➄it 'is valid with another title' do end
-  it 'タイトルが重複していたらinvalid' do
+  it 'タイトルが重複していなかったらvalid' do
     Task.create(
       tittle: 'aaa',
       status: :doing
