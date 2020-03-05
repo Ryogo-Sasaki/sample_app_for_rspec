@@ -23,15 +23,16 @@ RSpec.describe Task, type: :model do
   end
 
   # ➃it 'is invalid with a duplicate title' do end
-  it 'タイトルが重複していたらinvalid' do
+  fit 'タイトルが重複していたらinvalid' do
     Task.create(
-      tittle: 'aaa',
+      title: 'aaa',
       status: :doing
     )
     task = Task.new(
-      tittle: 'aaa',
+      title: 'aaa',
       status: :doing
     )
+    byebug
     expect(task).to be_valid
     expect(task).to include("has already been taken")
   end
@@ -39,11 +40,11 @@ RSpec.describe Task, type: :model do
   # ➄it 'is valid with another title' do end
   it 'タイトルが重複していなかったらvalid' do
     Task.create(
-      tittle: 'aaa',
+      title: 'aaa',
       status: :doing
     )
     task = Task.new(
-      tittle: 'bbb',
+      title: 'bbb',
       status: :doing
     )
     expect(task).to be_valid
