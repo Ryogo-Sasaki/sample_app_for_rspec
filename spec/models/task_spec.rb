@@ -11,13 +11,13 @@ RSpec.describe Task, type: :model do
   # ➁it 'is invalid without title' do end
   it 'タイトルがなかったらinvalid' do
     task = Task.new(title: '', status: :doing)
-    expect(task.errors[:title]).to be_valid
+    expect(task.errors[:title]).to be_valid, include("can't be blank")
   end
 
   # ➂it 'is invalid without status' do end
   it 'ステータスがなかったらinvalid' do
     task = Task.new(title: 'aaa', status: '')
-    expect(task.errors[:status]).to be_valid
+    expect(task.errors[:status]).to be_valid, include("can't be blank")
   end
 
   # ➃it 'is invalid with a duplicate title' do end
@@ -31,7 +31,7 @@ RSpec.describe Task, type: :model do
       status: :doing
     )
     task.valid?
-    expect(task.errors[:title]).to be_valid
+    expect(task.errors[:title]).to be_valid, include("has already been taken")
   end
 
   # ➄it 'is valid with another title' do end
