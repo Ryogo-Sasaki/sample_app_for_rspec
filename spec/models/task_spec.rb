@@ -26,11 +26,11 @@ RSpec.describe Task, type: :model do
       tittle: 'aaa',
       status: :doing
     )
-    @task = Task.new(
+    task = Task.new(
       tittle: 'aaa',
       status: :doing
     )
-    @task.valid?
+    task.valid?
     expect(task.errors[:title]).to be_valid
   end
 
@@ -40,11 +40,11 @@ RSpec.describe Task, type: :model do
       tittle: 'aaa',
       status: :doing
     )
-    @task = Task.new(
+    task = Task.new(
       tittle: 'bbb',
       status: :doing
     )
-    @task.valid?
+    task.valid?
     expect(task.errors[:title]).to be_valid
   end
 end
