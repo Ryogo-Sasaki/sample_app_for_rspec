@@ -45,6 +45,6 @@ RSpec.describe Task, type: :model do
       status: :doing
     )
     task.valid?
-    expect(task.errors[:title]).to be_valid
+    expect(task).to be_valid
   end
 end
