@@ -30,7 +30,6 @@ RSpec.describe Task, type: :model do
       tittle: 'aaa',
       status: :doing
     )
-    task.valid?
     expect(task.errors[:title]).to be_valid, include("has already been taken")
   end
 
@@ -44,7 +43,6 @@ RSpec.describe Task, type: :model do
       tittle: 'bbb',
       status: :doing
     )
-    task.valid?
     expect(task).to be_valid
   end
 end
