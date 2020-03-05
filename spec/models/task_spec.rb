@@ -29,7 +29,6 @@ RSpec.describe Task, type: :model do
       status: :doing
     )
     task = build(:task)
-    byebug
     expect(task).to be_valid
     expect(task).to include("has already been taken")
   end
