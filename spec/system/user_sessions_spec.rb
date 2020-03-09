@@ -35,4 +35,3 @@ RSpec.describe "User_Sessions", type: :system do
     expect(user_sessions).to have_selector '.alert-success', text: 'ログアウトに成功しました
   end
 end
-
