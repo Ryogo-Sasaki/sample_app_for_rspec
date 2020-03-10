@@ -1,65 +1,73 @@
 require 'rails_helper'
 
-RSpec.describe User, type: :system do
-  describe 'ログイン前' do
-    describe 'ユーザー新規登録' do
-      context 'フォームの入力値が正常' do
-        fit 'ユーザーの新規作成ができる'
-        let(:user) { User.new(email: 'aaa@gmail.com', password: 'aaa', password_confirmation: 'aaa', created_at: '', updated_at: '') }
-        byebug
-        expect(user).to have_selector '.alert-success', text: 'User was successfully created.'
-      end
+Rspec.describe 'Users', type: :system do
+  # before do
+  #   driven_by(:rack_test)
+  # end
 
-      context 'メールアドレスが未入力' do
-        fit 'ユーザーの新規作成が失敗する'
-        let(:user) { User.new(email: '', password: 'aaa', password_confirmation: 'aaa', created_at: '', updated_at: '') }
-        byebug
-        expect(user).to have_content '.alert-danger', text: 'ユーザーの登録に失敗しました'
-      end
+  describe 'ユーザー挙動のテスト'
+  let(:user){create(:user)}
+  let(:other_user) {(create(:user))}
+  let(:task, title: '最初のタスク', user_id: user.id)
 
-      context '登録済メールアドレスを使用' do
-        fit 'ユーザーの新規作成が失敗する'
+  describe 'ログイン前のケース' do
+    describe 'ユーザー新規登録画面' do
 
-        user = build(:user)
-        expect(user).to have_content '.alert-danger', text: 'ユーザーの登録に失敗しました'
-      end
+      context 'フォーム入力値が全て正しい問' do
+        it 'ユーザー新規作成に成功する' do
+          visit new_user_path
+          fill_in 'Email', with: 'user@example.com'
+          fill_in 'Password', with: 'password'
+          fill_in 'Password confirmation', with: 'password'
 
-      describe 'マイページ' do
-        context 'ログインしていない状態' do
-          fit 'マイページへのアクセスが失敗する'
-          visit users_path
-          expect(user).to have_content '.alert-danger', text: 'Login Required'
+          click_button('SignUp')
+          expect(login_path).to eq(current_path)
+          expect(page).to have_content 'User was successfully created'
+          byebug
         end
+      end
+
+      context 'メールアドレスが未入寮の時' do
+        it 'ユーザーの新規作成に失敗する' do
+          fill_in 'Email', with: ''
+          fill_in 'Password confirmation', with: 'password'
+          click_button('SignUp')
+          expect(page).to have_content  "Email can't be blank"
+        end
+      end
+      context '登録済メールアドレスのとき' do
+        it 'ユーザーのi新規作成に失敗する' do
+          visit new_user_path
+          fill_in 'Email', with: 'password'
+          fill_in 'Password', with: 'password'
+          click_button('SignUp')
+          expect(page).to have_content 'Email has already been taken'
+        end
+      end
+    end
+    context '自分の編集ページにアクセスした時' do
+      it 'ログイン前なので推移に失敗する' do
+        visit edit_user_path(user)
+        expect(login_path).to eq(current_path)
+        expect(page).to have_content 'Login required'
       end
     end
   end
+  describe'ログイン後のケース' do
+    describe 'ユーザー編集画面' do
 
-  describe 'ログイン後' do
-    describe 'ユーザー編集' do
-
-      context 'フォームの入力値が正常' do
-        let(:user_a) { FactoryBot.create(:user, email: 'aaa@gmail.com', password: 'aaa', password_confirmation: 'aaa', created_at: '', updated_at: '') }
-
-        before do
-          visit login_path
-
-          click_button 'ログインする'
-        end
-
-        context 'メールアドレスが未入力時に' do
-          it 'ユーザーの編集が失敗する'
-        end
-        context '登録済メールアドレスを使用' do
-          it 'ユーザーの編集が失敗'
-        end
-        context '他ユーザーの編集ページにアクセス' do
-          it 'アクセスが失敗する'
-        end
-      end
-
-      describe 'マイページ' do
-        context 'タスクを作成' do
-          it '新規作成したタスクが表示される'
-        end
+      context 'フォームの入力値がすべて正しいとき'
+      it 'ユーザーの編集に成功する' do
+        login(user)
+        visit edit_user_path(user)
+        fill_in 'Email', with: 'test2@example.com'
+        fill_in 'Password', with 'password_confirmation'
+        click login_path
+        expect(user_path(user)).to eq(current_path)
+        expect(page).to have_content 'User was successfully updated'
       end
     end
+
+    context 'メールアドレス'
+  end
+end
