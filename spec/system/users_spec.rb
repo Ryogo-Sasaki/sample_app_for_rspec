@@ -3,8 +3,9 @@ require "rails_helper"
 RSpec.describe "Users", type: :system do
 
   describe "ユーザーの挙動テスト" do
+    let(:user) {create(:user)}
     let(:other_user) { (create(:user)) }
-    byebug
+    let(:task) {create(:task, title: 'タスク➀', user_id: user.id)}
 
     describe "ログイン前のケース" do
       describe "ユーザー新規登録画面" do
@@ -17,7 +18,6 @@ RSpec.describe "Users", type: :system do
             fill_in 'Password confirmation', with: 'password'
             click_button('SignUp')
             expect(page).to have_content 'User was successfully created'
-            byebug
           end
         end
         context 'メールアドレスが未入力' do
@@ -28,12 +28,12 @@ RSpec.describe "Users", type: :system do
             fill_in 'Password confirmation', with: "password"
             click_button('SignUp')
             expect(page).to have_content "Email can't be blank"
-            byebug
           end
         end
 
         context '登録済メールアドレスを使用' do
           it 'ユーザーの新規作成が失敗する' do
+            user = create(:user)
             visit new_user_path
             fill_in 'Email', with: user.email
             fill_in 'Password', with: 'password'
@@ -48,6 +48,7 @@ RSpec.describe "Users", type: :system do
       describe 'マイページ' do
         context 'ログインしていない状態' do
           it 'マイページへのアクセスが失敗する' do
+            user = create(:user)
             visit edit_user_path(user)
             expect(page).to have_content 'Login required'
           end
@@ -59,6 +60,7 @@ RSpec.describe "Users", type: :system do
       describe 'ユーザー編集' do
         context 'フォームの入力値が正常' do
           it 'ユーザーの編集ができる' do
+            user = create(:user)
             visit login_path
             fill_in 'Email', with: user.email
             fill_in 'Password', with: 'password'
@@ -90,20 +92,16 @@ RSpec.describe "Users", type: :system do
       end
 
       context '登録済メールアドレスを使用' do
-        it 'ユーザーの編集が失敗' do
-          login(other_user)
-          # other_user = create(:user)
-          # visit login_path
-          # fill_in 'Email', with: user.email
-          # fill_in 'Password', with: 'password'
-          # click_button 'Login'
+        xit 'ユーザーの編集が失敗' do
+          other_user = create(email: 'bbb@example.com', password: 'bbb', password_confirmation: 'bbb')
+          visit login_path
+          click_button('Login')
           visit edit_user_path(other_user)
           fill_in 'Email', with: user.email
           fill_in 'Password', with: 'passwordbbb'
           fill_in 'Password confirmation', with: 'passwordbbb'
           click_button('Update')
           expect(page).to have_content 'Email has already been taken'
-          byebug
         end
       end
       context '他ユーザーの編集ページにアクセス' do
@@ -118,16 +116,21 @@ RSpec.describe "Users", type: :system do
         end
       end
     end
-
+  
     describe 'マイページ' do
       context 'タスクを作成' do
-        it '新規作成したタスクが表示される' do
+        xit '新規作成したタスクが表示される' do
           user = create(:user)
           visit login_path
           fill_in 'Email', with: user.email
           fill_in 'Password', with: 'password'
           click_button('Login')
-          visit_user_path(user)
+          visit new_task_path
+          fill_in 'Title', with: 'タスク➀'
+          fill_in 'Content', with: 'コンテント➀'
+          select 'todo', from: 'Status'
+          click_button('Create Task')
+          visit user_path(user)
           expect(page).to have_content 'タスク➀'
         end
       end
