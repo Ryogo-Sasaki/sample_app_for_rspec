@@ -6,7 +6,7 @@ RSpec.describe 'UserSession', type: :system do
 
     describe 'ログイン前' do
       context 'フォームの入力値が正常' do
-        fit 'ログインが成功する' do
+        it 'ログインが成功する' do
           user = create(:user)
           visit login_path
           fill_in 'Email', with: user.email
