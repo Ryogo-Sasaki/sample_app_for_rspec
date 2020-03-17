@@ -3,12 +3,15 @@ require 'rails_helper'
 RSpec.describe 'Tasks', type: :system do
   describe '挙動テスト' do
     let(:other_user) { create(:user) }
+    let(:user) { create(:user)}
     let(:other_task) { create(:task, user_id: other_user.id) }
+    let(:task) { create(:task, user_id: user.id)}
 
     describe 'ログイン前のケース' do
       describe 'タスクの新規作成画面' do
         context '権限なし' do
           it 'アクセスに失敗する' do
+            user = create(:user)
             visit new_task_path
             expect(page).to have_content 'Login required'
           end
@@ -27,9 +30,6 @@ RSpec.describe 'Tasks', type: :system do
 
 
     describe 'ログイン後のケース' do
-      # before do
-      #   login(user)
-      # end
       describe 'タスクの新規作成画面' do
         context 'フォームの入力値がすべて入力されている時' do
           it 'タスクの新規作成に成功する' do
@@ -55,7 +55,6 @@ RSpec.describe 'Tasks', type: :system do
 
       context 'フォームの入力値が全て正しい場合' do
         it 'タスクの編集に成功する' do
-          user = create(:user)
           visit login_path
           fill_in 'Email', with: user.email
           fill_in 'Password', with: 'password'
