@@ -23,6 +23,7 @@ RSpec.describe 'Tasks', type: :system do
         context '権限なし' do
           it 'アクセスに失敗する' do
             visit edit_task_path(user)
+            expect(current_path).to eq(login_path)
             expect(page).to have_content 'Login required'
           end
         end
@@ -80,6 +81,7 @@ RSpec.describe 'Tasks', type: :system do
           fill_in 'Password', with: 'password'
           click_button('Login')
           visit edit_task_path(other_task)
+          expect(current_path).to eq(root_path)
           expect(page).to have_content 'Forbidden access'
 
 
