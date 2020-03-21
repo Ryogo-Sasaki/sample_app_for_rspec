@@ -12,6 +12,7 @@ RSpec.describe 'UserSession', type: :system do
           fill_in 'Email', with: user.email
           fill_in 'Password', with: 'password'
           click_button('Login')
+          expect(current_path).to eq(root_path)
           expect(page).to have_content 'Login successful'
         end
       end
@@ -21,6 +22,7 @@ RSpec.describe 'UserSession', type: :system do
           fill_in 'Email', with: ''
           fill_in 'Password', with: 'password'
           click_button('Login')
+          expect(current_path).to eq(login_path)
           expect(page).to have_content 'Login failed'
         end
       end
@@ -33,6 +35,7 @@ RSpec.describe 'UserSession', type: :system do
             fill_in 'Password', with: 'password'
             click_button('Login')
             click_link('Logout')
+            expect(current_path).to eq(root_path)
             expect(page).to have_content 'Logged out'
             expect(page).to have_content 'Tasks'
           end
