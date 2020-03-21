@@ -14,6 +14,7 @@ RSpec.describe 'Tasks', type: :system do
             user = create(:user)
             visit new_task_path
             expect(page).to have_content 'Login required'
+            expect(current_path).to eq(login_path)
           end
         end
       end
@@ -66,6 +67,8 @@ RSpec.describe 'Tasks', type: :system do
           fill_in 'Deadline', with: '2020/11/22 22:22'
           click_button('Update Task')
           expect(page).to have_content 'Task was successfully updated.'
+          expect(page).to have_content task.reload.title
+          expect(page).to have_content task.reload.content
         end
       end
 
@@ -78,6 +81,8 @@ RSpec.describe 'Tasks', type: :system do
           click_button('Login')
           visit edit_task_path(other_task)
           expect(page).to have_content 'Forbidden access'
+
+
         end
       end
     end
