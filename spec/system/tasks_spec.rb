@@ -22,7 +22,7 @@ RSpec.describe 'Tasks', type: :system do
       describe 'タスクの編集画面' do
         context '権限なし' do
           it 'アクセスに失敗する' do
-            visit edit_task_path(user)
+            visit edit_task_path(task)
             expect(current_path).to eq(login_path)
             expect(page).to have_content 'Login required'
           end
@@ -55,7 +55,7 @@ RSpec.describe 'Tasks', type: :system do
 
     describe 'タスクの編集画面' do
       context 'フォームの入力値が全て正しい場合' do
-        fit 'タスクの編集に成功する' do
+        it 'タスクの編集に成功する' do
           visit login_path
           fill_in 'Email', with: user.email
           fill_in 'Password', with: 'password'
