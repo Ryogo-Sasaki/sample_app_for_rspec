@@ -46,8 +46,8 @@ RSpec.describe 'Tasks', type: :system do
             select 'todo', from: 'Status'
             click_button('Create Task')
             expect(page).to have_content 'Task was successfully created'
-            expect(page).to have_content 'タスク➀'
-            expect(page).to have_content 'コンテント➀'
+            expect(page).to have_content 'タスク1'
+            expect(page).to have_content 'コンテント1'
           end
         end
       end
@@ -62,8 +62,8 @@ RSpec.describe 'Tasks', type: :system do
           fill_in 'Password', with: 'password'
           click_button('Login')
           visit edit_task_path(task)
-          fill_in 'Title', with: 'タスク➁'
-          fill_in 'Content', with: 'タスク➁'
+          fill_in 'Title', with: 'タスク2'
+          fill_in 'Content', with: 'タスク2'
           select 'doing', from: 'Status'
           fill_in 'Deadline', with: '2020/11/22 22:22'
           click_button('Update Task')
@@ -99,8 +99,8 @@ RSpec.describe 'Tasks', type: :system do
           fill_in 'Password', with: 'password'
           click_button('Login')
           visit new_task_path
-          fill_in 'Title', with: 'タスク➀'
-          fill_in 'Content', with: 'コンテント➀'
+          fill_in 'Title', with: 'タスク1'
+          fill_in 'Content', with: 'コンテント1  '
           select 'todo', from: 'Status'
           click_button('Create Task')
           visit tasks_path
