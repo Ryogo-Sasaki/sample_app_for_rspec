@@ -100,7 +100,7 @@ RSpec.describe 'Tasks', type: :system do
           click_button('Login')
           visit new_task_path
           fill_in 'Title', with: 'タスク1'
-          fill_in 'Content', with: 'コンテント1  '
+          fill_in 'Content', with: 'コンテント'
           select 'todo', from: 'Status'
           click_button('Create Task')
           visit tasks_path
