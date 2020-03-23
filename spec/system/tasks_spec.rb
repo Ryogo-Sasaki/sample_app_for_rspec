@@ -80,8 +80,8 @@ RSpec.describe 'Tasks', type: :system do
           fill_in 'Password', with: 'password'
           click_button('Login')
           visit edit_task_path(other_task)
-          expect(current_path).to eq(root_path)
           expect(page).to have_content 'Forbidden access'
+          expect(current_path).to eq(root_path)
 
 
         end
