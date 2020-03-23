@@ -2,10 +2,11 @@ require 'rails_helper'
 
 RSpec.describe 'Tasks', type: :system do
   describe '挙動テスト' do
-    let(:other_user) { create(:user) }
     let(:user) { create(:user)}
-    let(:other_task) { create(:task, user_id: other_user.id) }
     let(:task) { create(:task, user_id: user.id)}
+    let(:other_user) { create(:user) }
+    let(:other_task) { create(:task, user_id: other_user.id) }
+
 
     describe 'ログイン前のケース' do
       describe 'タスクの新規作成画面' do
