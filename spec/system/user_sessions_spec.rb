@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'UserSession', type: :system do
-
   describe 'ユーザーのログイン挙動テスト' do
 
     describe 'ログイン前' do
