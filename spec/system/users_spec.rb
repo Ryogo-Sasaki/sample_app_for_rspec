@@ -46,7 +46,7 @@ RSpec.describe "Users", type: :system do
           end
         end
       end
-      
+
       describe 'マイページ' do
         context 'ログインしていない状態' do
           it 'マイページへのアクセスが失敗する' do
@@ -75,6 +75,7 @@ RSpec.describe "Users", type: :system do
             click_button('Update')
             expect(current_path).to eq(user_path(user))
             expect(page).to have_content 'User was successfully updated.'
+            expect(page).to have_content user.email
           end
         end
       end
