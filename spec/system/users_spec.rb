@@ -121,8 +121,8 @@ RSpec.describe "Users", type: :system do
           fill_in 'Password', with: 'password'
           click_button('Login')
           visit edit_user_path(other_user)
-          expect(current_path).to eq(user_path(user))
           expect(page).to have_content 'Forbidden access'
+          expect(current_path).to eq(user_path(user))
         end
       end
     end
