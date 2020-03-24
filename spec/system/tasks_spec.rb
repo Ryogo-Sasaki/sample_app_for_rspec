@@ -7,7 +7,6 @@ RSpec.describe 'Tasks', type: :system do
     let(:other_user) { create(:user) }
     let(:other_task) { create(:task, user_id: other_user.id) }
 
-
     describe 'ログイン前のケース' do
       describe 'タスクの新規作成画面' do
         context '権限なし' do
@@ -31,7 +30,6 @@ RSpec.describe 'Tasks', type: :system do
       end
     end
 
-
     describe 'ログイン後のケース' do
       describe 'タスクの新規作成画面' do
         context 'フォームの入力値がすべて入力されている時' do
@@ -52,7 +50,6 @@ RSpec.describe 'Tasks', type: :system do
         end
       end
     end
-
 
     describe 'タスクの編集画面' do
       context 'フォームの入力値が全て正しい場合' do
@@ -83,12 +80,9 @@ RSpec.describe 'Tasks', type: :system do
           visit edit_task_path(other_task)
           expect(page).to have_content 'Forbidden access'
           expect(current_path).to eq(root_path)
-
-
         end
       end
     end
-
 
     describe 'タスクの一覧画面' do
       context 'Destroyボタンをクリックした時' do
